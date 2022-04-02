@@ -1,0 +1,23 @@
+version: "3.4"
+
+services:
+  hangfire.api:
+    image: ${DOCKER_REGISTRY-}hangfireapi
+    build:
+      context: .
+      dockerfile: Hangfire.Api/Dockerfile
+    depends_on:
+      - mongo
+    networks:
+      - hangfire_mongo_network
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - hangfire_mongo_network
+
+networks:
+  hangfire_mongo_network:
+    driver: bridge
